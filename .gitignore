@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+ZypHQa8jQArT0Oq1_fizzi-site-assets
+*.zip
+
 # debug
 npm-debug.log*
 yarn-debug.log*

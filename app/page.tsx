@@ -1,3 +1,7 @@
+import Hero from "@/components/sections/Hero";
+
 export default function Home() {
-  return <div className="size-screen flex-center text-5xl font-medium">Alpinoooooooooo</div>;
+  return <div>
+    <Hero/>
+  </div>;
 }
