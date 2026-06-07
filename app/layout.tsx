@@ -1,4 +1,5 @@
 import Header from '@/components/Header';
+import ViewCanvas from '@/components/ViewCanvas';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
@@ -22,9 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${alpino.variable} h-full antialiased`}>
-      <body className="overflow-x-hidden bg-yellow-300">
+      <body className="overflow-x-hidden! bg-yellow-300">
         <Header />
-        <main>{children}</main>
+        <main>
+          {children}
+          <ViewCanvas />
+        </main>
       </body>
     </html>
   );
