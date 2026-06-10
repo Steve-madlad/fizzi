@@ -1,17 +1,22 @@
 'use client';
 import BunchedCans from '@/public/bunched-cans.png';
+import { useAppStore } from '@/store/appStore';
 import { useGSAP } from '@gsap/react';
 import { View } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
+import { Bubbles } from '../Bubbles';
 import { Container } from '../Container';
 import Scene from '../Scene';
 import { TextSplitter } from '../TextSplitter';
 
 gsap.registerPlugin(ScrollTrigger);
 export default function Hero() {
+  const { isReady } = useAppStore();
   useGSAP(() => {
+    if (!isReady) return;
+
     const introTl = gsap.timeline();
 
     introTl
@@ -76,12 +81,15 @@ export default function Hero() {
         opacity: 0,
         y: 20,
       });
-  }, []);
+  }, [isReady]);
+
   return (
     <Container className="hero opacity-0">
       <View className="hero-scene size-screen pointer-events-none sticky top-0 z-50 mt-[-100vh] hidden md:block">
         <Scene />
+        <Bubbles count={100} speed={2} bubbleSize={0.12} opacity={0.5} />
       </View>
+
       <div className="grid">
         <div className="grid h-screen place-items-center">
           <div className="grid auto-rows-min place-items-center text-center">
