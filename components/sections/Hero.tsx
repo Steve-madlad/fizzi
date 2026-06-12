@@ -1,4 +1,5 @@
 'use client';
+import useMediaQuery from '@/hooks/useMediaQuery';
 import BunchedCans from '@/public/bunched-cans.png';
 import { useAppStore } from '@/store/appStore';
 import { useGSAP } from '@gsap/react';
@@ -14,8 +15,10 @@ import { TextSplitter } from '../TextSplitter';
 gsap.registerPlugin(ScrollTrigger);
 export default function Hero() {
   const { isReady } = useAppStore();
+  const isDesktop = useMediaQuery('(min-width: 768px)', true);
+
   useGSAP(() => {
-    if (!isReady) return;
+    if (!isReady && isDesktop) return;
 
     const introTl = gsap.timeline();
 
@@ -81,14 +84,16 @@ export default function Hero() {
         opacity: 0,
         y: 20,
       });
-  }, [isReady]);
+  }, [isReady, isDesktop]);
 
   return (
     <Container className="hero opacity-0">
-      <View className="hero-scene size-screen pointer-events-none sticky top-0 z-50 mt-[-100vh] hidden md:block">
-        <Scene />
-        <Bubbles count={100} speed={2} bubbleSize={0.12} opacity={0.5} />
-      </View>
+      {isDesktop && (
+        <View className="hero-scene size-screen pointer-events-none sticky top-0 z-50 mt-[-100vh] hidden md:block">
+          <Scene />
+          <Bubbles count={100} speed={2} bubbleSize={0.12} opacity={0.5} />
+        </View>
+      )}
 
       <div className="grid">
         <div className="grid h-screen place-items-center">
