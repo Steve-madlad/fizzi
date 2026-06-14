@@ -1,5 +1,5 @@
 import Header from '@/components/Header';
-import ViewCanvas from '@/components/ViewCanvas';
+import ViewCanvas from '@/components/three/ViewCanvas';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';

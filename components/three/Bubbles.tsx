@@ -17,10 +17,7 @@ export function Bubbles({
 }) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   
-  // Connect to your Zustand store
-  const isReady = useAppStore((state) => state.isReady);
-  console.log({isReady});
-  
+  const isReady = useAppStore((state) => state.isReady);  
 
   const bubbleSpeed = useRef(new Float32Array(count));
   const bubbleOffsets = useRef(new Float32Array(count));

@@ -1,3 +1,4 @@
+import FloatingCan from '@/components/three/Floating';
 import { useAppStore } from '@/store/appStore';
 import { useGSAP } from '@gsap/react';
 import { Environment } from '@react-three/drei';
@@ -5,7 +6,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import { useRef } from 'react';
 import { Group } from 'three';
-import FloatingCan from './Floating';
 type Props = {};
 
 gsap.registerPlugin(ScrollTrigger);

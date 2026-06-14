@@ -7,10 +7,10 @@ import { View } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import { Bubbles } from '../Bubbles';
-import { Container } from '../Container';
-import Scene from '../Scene';
-import { TextSplitter } from '../TextSplitter';
+import { Bubbles } from '../../three/Bubbles';
+import { Container } from '../../Container';
+import { TextSplitter } from '../../TextSplitter';
+import Scene from './Scene';
 
 gsap.registerPlugin(ScrollTrigger);
 export default function Hero() {

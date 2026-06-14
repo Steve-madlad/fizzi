@@ -1,10 +1,10 @@
 'use client';
 
-import FloatingCan from '@/components/Floating';
-import { SodaCanProps } from '@/components/SodaCan';
+import FloatingCan from '@/components/three/Floating';
+import { SodaCanProps } from '@/components/three/SodaCan';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { useGSAP } from '@gsap/react';
-import { Cloud, Clouds, Environment, OrbitControls, Text } from '@react-three/drei';
+import { Cloud, Clouds, Environment, Text } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import { useRef } from 'react';
@@ -66,8 +66,8 @@ export default function Scene({ sentence, flavor }: Props) {
     const DURATION = 6;
 
     gsap.set([cloud2Ref.current.position, cloud1Ref.current.position], {
-      ...getXYPositions(DISTANCE)
-    })
+      ...getXYPositions(DISTANCE),
+    });
 
     gsap.to(cloud1Ref.current.position, {
       y: `+=${getYPostion(DISTANCE * 2)}`,
@@ -96,30 +96,60 @@ export default function Scene({ sentence, flavor }: Props) {
       },
     });
 
-    scrollTl.to("body", {
-      backgroundColor: "#C0F0F5",
-      overwrite: "auto",
-      duration: 0.1
-    }).to(cloudsRef.current.position, {
-      z: 0, duration: 0.3
-    }, 0).to(canRef.current.position, {
-      x: 0,
-      y: 0,
-      duration: 0.3,
-      ease: "back.out(1.7)",
-    }).to(wordsRef.current.children.map((word) => word.position), {
-      keyframes: [
-        {x: 0, y: 0, z: -1},
-        {...getXYPositions(-7), z: -7},
-      ],
-      stagger: 0.3
-    }, 0.25)
+    scrollTl
+      .to('body', {
+        backgroundColor: '#C0F0F5',
+        overwrite: 'auto',
+        duration: 0.1,
+      })
+      .to(
+        cloudsRef.current.position,
+        {
+          z: 0,
+          duration: 0.3,
+        },
+        0,
+      )
+      .to(canRef.current.position, {
+        x: 0,
+        y: 0,
+        duration: 0.3,
+        ease: 'back.out(1.7)',
+      })
+      .to(
+        wordsRef.current.children.map((word) => word.position),
+        {
+          keyframes: [
+            { x: 0, y: 0, z: -1 },
+            { ...getXYPositions(-7), z: -7 },
+          ],
+          stagger: 0.3,
+        },
+        0.25,
+      )
+      .to(canRef.current.position, {
+        ...getXYPositions(-5),
+        duration: 0.5,
+        ease: 'back.in(1.7)',
+      })
+      .to(cloudsRef.current.position, {
+        z: 7,
+        duration: 0.5,
+      });
   });
 
   return (
     <group ref={groupRef}>
       <group rotation={[0, 0, 0.5]}>
-        <FloatingCan floatIntensity={3} floatSpeed={3} flavor={flavor} rotationIntensity={0.7} ref={canRef}></FloatingCan>
+        <FloatingCan
+          floatIntensity={3}
+          floatSpeed={3}
+          flavor={flavor}
+          rotationIntensity={0.7}
+          ref={canRef}
+        >
+          <pointLight intensity={30} color="#8C0413" decay={0.6}></pointLight>
+        </FloatingCan>
       </group>
 
       <Clouds ref={cloudsRef}>
@@ -129,7 +159,6 @@ export default function Scene({ sentence, flavor }: Props) {
 
       <group ref={wordsRef}>{sentence && <TextThree sentence={sentence} color="#D97315" />}</group>
 
-      {/* <OrbitControls/> */}
       <ambientLight intensity={2} color="#9DDEFA" />
       <Environment files="hdr/field.hdr" environmentIntensity={1.5} />
     </group>
