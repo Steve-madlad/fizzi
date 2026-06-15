@@ -5,7 +5,6 @@ import { View } from '@react-three/drei';
 import Scene from './Scene';
 
 const title = 'Dive into better health';
-// Fizzi - Soda for Gutsy people
 
 export default function Dive() {
   return (
