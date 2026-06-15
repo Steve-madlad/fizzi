@@ -1,18 +1,18 @@
 'use client';
+
 import useMediaQuery from '@/hooks/useMediaQuery';
 import BunchedCans from '@/public/bunched-cans.png';
 import { useAppStore } from '@/store/appStore';
 import { useGSAP } from '@gsap/react';
 import { View } from '@react-three/drei';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import { Bubbles } from '../../three/Bubbles';
 import { Container } from '../../Container';
 import { TextSplitter } from '../../TextSplitter';
+import { Bubbles } from '../../three/Bubbles';
 import Scene from './Scene';
+import { ScrollTrigger } from 'gsap/all';
 
-gsap.registerPlugin(ScrollTrigger);
 export default function Hero() {
   const { isReady } = useAppStore();
   const isDesktop = useMediaQuery('(min-width: 768px)', true);

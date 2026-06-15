@@ -4,8 +4,6 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { SVGProps, useRef } from 'react';
 
-gsap.registerPlugin(useGSAP);
-
 export function WavyCircles({
   notAnimated,
   ...props

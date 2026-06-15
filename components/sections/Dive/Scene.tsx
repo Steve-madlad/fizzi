@@ -6,7 +6,6 @@ import useMediaQuery from '@/hooks/useMediaQuery';
 import { useGSAP } from '@gsap/react';
 import { Cloud, Clouds, Environment, Text } from '@react-three/drei';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
 import { useRef } from 'react';
 import * as THREE from 'three';
 
@@ -15,7 +14,6 @@ type Props = {
   flavor: SodaCanProps['flavor'];
 };
 
-gsap.registerPlugin(ScrollTrigger);
 export default function Scene({ sentence, flavor }: Props) {
   const groupRef = useRef<THREE.Group>(null);
   const canRef = useRef<THREE.Group>(null);

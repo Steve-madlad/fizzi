@@ -98,9 +98,9 @@ export default function CarouselSection({}: Props) {
   };
 
   return (
-    <section className="carousel relative grid h-screen grid-rows-[auto,4fr,auto] justify-center overflow-hidden bg-white py-12 text-white">
+    <section className="carousel relative grid h-[110vh] grid-rows-[auto,4fr,auto] justify-center overflow-hidden bg-white py-12 text-white">
       <div className="background abs-fill pointer-events-none bg-[#710523] opacity-50"></div>
-      <WavyCircles className="absolute top-1/2 left-1/2 h-[120vmin] -translate-1/2 text-[#710523]" />
+      <WavyCircles className="absolute top-1/2 left-1/2 h-[110vmin] -translate-1/2 text-[#710523]" />
       <h2 className="relative text-center text-5xl font-bold">Choose your flavor</h2>
       <div className="grid grid-cols-[auto_auto_auto] items-center">
         <button

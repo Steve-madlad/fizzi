@@ -3,12 +3,10 @@ import { useAppStore } from '@/store/appStore';
 import { useGSAP } from '@gsap/react';
 import { Environment } from '@react-three/drei';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
 import { useRef } from 'react';
 import { Group } from 'three';
 type Props = {};
 
-gsap.registerPlugin(ScrollTrigger);
 export default function Scene({}: Props) {
   const can1Ref = useRef<Group>(null);
   const can2Ref = useRef<Group>(null);

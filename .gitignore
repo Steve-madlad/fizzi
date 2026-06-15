@@ -26,6 +26,7 @@
 
 ZypHQa8jQArT0Oq1_fizzi-site-assets
 *.zip
+favicon_io
 
 # debug
 npm-debug.log*
