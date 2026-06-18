@@ -11,7 +11,7 @@ import { Group } from 'three';
 
 export default function Scene() {
   const canRef = useRef<Group>(null);
-  const bgColors = ['#FFA6B5', '#cff6e9', '#CBEF9A'];
+  const bgColors = ['#FFA6B5', '#a79fff', '#CBEF9A'];
 
   const isDesktop = useMediaQuery('(min-width: 768px)', true);
 
