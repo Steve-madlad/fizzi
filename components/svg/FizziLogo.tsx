@@ -1,5 +1,5 @@
-import { SVGProps } from "react";
-import clsx from "clsx";
+import clsx from 'clsx';
+import { SVGProps } from 'react';
 
 export function FizziLogo(props: SVGProps<SVGSVGElement>) {
   return (
@@ -10,21 +10,21 @@ export function FizziLogo(props: SVGProps<SVGSVGElement>) {
       height="87"
       fill="none"
       viewBox="0 0 166 87"
-      className={clsx("group", props.className)}
+      className={clsx('group', props.className)}
       aria-labelledby="fizzi-logo-title"
     >
       <title id="fizzi-logo-title">Fizzi</title>
       <g clipPath="url(#clip0_342_66)">
         <mask
           id="mask0_342_66"
-          style={{ maskType: "alpha" }}
+          style={{ maskType: 'alpha' }}
           width="302"
           height="118"
           x="-5"
           y="-31"
           maskUnits="userSpaceOnUse"
         >
-          <g className="transition-transform duration-500 ease-in-out group-hover:translate-y-[80%]">
+          <g className="md:translate-y-0 translate-y-[80%] transition-transform duration-500 ease-in-out group-hover:translate-y-[80%]">
             <path
               fill="currentColor"
               className="animate-slide-left"

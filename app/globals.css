@@ -11,6 +11,7 @@
   --animate-slide-left: var(--slide-left);
   --animate-convey-fw: var(--convey-fw);
   --animate-convey-bk: var(--convey-bk);
+  --animate-move-fw: var(--move-fw);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-alpino: var(--font-alpino);
@@ -22,6 +23,7 @@
   --convey-duration: 5s;
   --convey-fw: conveyForwards var(--convey-duration) linear infinite;
   --convey-bk: conveyBackwards var(--convey-duration) linear infinite;
+  --move-fw: moveForwards var(--convey-duration) linear infinite;
   --spin-slow: spin 6s linear infinite;
   --slide-left: slide-left 6s linear infinite;
 }
@@ -46,10 +48,19 @@
 
 @keyframes conveyForwards {
   0% {
-    transform: translateX(0);
+    transform: translateX(-50%);
   }
   100% {
-    transform: translateX(50%);
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveForwards {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
   }
 }
 

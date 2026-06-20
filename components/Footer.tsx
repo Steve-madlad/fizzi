@@ -103,7 +103,7 @@ function FooterCansScene({ triggerRef }: { triggerRef: React.RefObject<HTMLEleme
 
 function FooterCans({ triggerRef }: { triggerRef: React.RefObject<HTMLElement | null> }) {
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-[400px] lg:block">
+    <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-100 lg:block">
       <View className="absolute inset-0 h-full w-full">
         <FooterCansScene triggerRef={triggerRef} />
       </View>
@@ -176,7 +176,7 @@ export default function Footer() {
           {/* Flavor Ticker */}
           <div className="mt-32 w-full overflow-hidden select-none">
             {/* The wrapper container */}
-            <div className="animate-convey-fw flex w-max">
+            <div className="animate-move-fw -translate-x-1/2 flex w-max">
               {/* Track 1 */}
               <div className="flex shrink-0 items-center">
                 {FLAVORS.map((item, index) => (

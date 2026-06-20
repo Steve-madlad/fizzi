@@ -136,6 +136,22 @@ export default function Scene({}: Props) {
         },
         1.3,
       );
+
+    const tabletScale = 0.75;
+
+    const mm = gsap.matchMedia();
+    mm.add('(max-width: 1024px)', () => {
+      gsap.set(
+        [
+          can1Ref.current!.scale,
+          can2Ref.current!.scale,
+          can3Ref.current!.scale,
+          can4Ref.current!.scale,
+          can5Ref.current!.scale,
+        ],
+        { x: tabletScale, y: tabletScale, z: tabletScale },
+      );
+    });
   });
 
   return (

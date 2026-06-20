@@ -2,11 +2,11 @@
 
 import FloatingCan from '@/components/three/Floating';
 import { SodaCanProps } from '@/components/three/SodaCan';
-import useMediaQuery from '@/hooks/useMediaQuery';
 import { useGSAP } from '@gsap/react';
 import { Cloud, Clouds, Environment, Text } from '@react-three/drei';
 import gsap from 'gsap';
 import { useRef } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import * as THREE from 'three';
 
 type Props = {
@@ -134,6 +134,13 @@ export default function Scene({ sentence, flavor }: Props) {
         z: 7,
         duration: 0.5,
       });
+
+    const mobileScale = 0.75;
+
+    const mm = gsap.matchMedia();
+    mm.add('(max-width: 768px)', () => {
+      gsap.set(canRef.current!.scale, { x: mobileScale, y: mobileScale, z: mobileScale });
+    });
   });
 
   return (
@@ -167,11 +174,14 @@ function TextThree({ sentence, color = 'white' }: { sentence: string; color?: st
   const words = sentence.toUpperCase().split(' ');
 
   const material = new THREE.MeshLambertMaterial();
-  const isDesktop = useMediaQuery('min-width: 950px', true);
+  const isDesktop = useMediaQuery({ query: '(min-width: 1024px)' });
+  const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
+  const isSmallDevice = useMediaQuery({ query: '(min-width: 580px)' });
+
   return words.map((word: string, wordIndex: number) => (
     <Text
       key={`${wordIndex}-${word}`}
-      scale={isDesktop ? 1 : 0.4}
+      scale={isDesktop ? 1 : isTablet ? 0.7 : isSmallDevice ? 0.55 : 0.35}
       color={color}
       material={material}
       font="/fonts/Alpino-Variable.woff/"
