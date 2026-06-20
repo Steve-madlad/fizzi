@@ -1,8 +1,7 @@
 'use client';
 
-import AlternatingInfo from '@/components/sections/alternating/AlternatingInfo';
 import BeltSection from '@/components/sections/belt/BeltSection';
-import Carousel from '@/components/sections/carousel/CarouselSection';
+import CarouselxAlternating from '@/components/sections/CarouselxAlternating';
 import Dive from '@/components/sections/dive/DiveSection';
 import Hero from '@/components/sections/hero/HeroSection';
 import gsap from 'gsap';
@@ -14,8 +13,7 @@ export default function Home() {
     <div>
       <Hero />
       <Dive />
-      <Carousel />
-      <AlternatingInfo />
+      <CarouselxAlternating />
       <BeltSection />
     </div>
   );

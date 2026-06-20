@@ -171,7 +171,7 @@ function TextThree({ sentence, color = 'white' }: { sentence: string; color?: st
   return words.map((word: string, wordIndex: number) => (
     <Text
       key={`${wordIndex}-${word}`}
-      scale={isDesktop ? 1 : 0.7}
+      scale={isDesktop ? 1 : 0.4}
       color={color}
       material={material}
       font="/fonts/Alpino-Variable.woff/"

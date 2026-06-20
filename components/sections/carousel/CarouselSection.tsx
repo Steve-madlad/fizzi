@@ -1,37 +1,41 @@
 'use client';
 
+import { WavyCircles } from '@/components/svg/WavyCircles';
+import { WaveDivider } from '@/components/svg/WavyDivider';
 import FloatingCan from '@/components/three/Floating';
 import { SodaCanProps } from '@/components/three/SodaCan';
-import { WavyCircles } from '@/components/WavyCircles';
 import { useGSAP } from '@gsap/react';
 import { Center, Environment, View } from '@react-three/drei';
 import gsap from 'gsap';
 import { MoveLeft, MoveRight } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import { Group } from 'three';
 
 const spinsOnChange = 8;
 const FLAVORS: {
   flavor: SodaCanProps['flavor'];
   color: string;
+  lightColor: string;
   name: string;
 }[] = [
-  { flavor: 'blackCherry', color: '#710523', name: 'Black Cherry' },
-  { flavor: 'grape', color: '#572981', name: 'Grape Goodness' },
-  { flavor: 'lemonLime', color: '#164405', name: 'Lemon Lime' },
+  { flavor: 'blackCherry', color: '#710523', lightColor: '#b88291', name: 'Black Cherry' },
+  { flavor: 'grape', color: '#572981', lightColor: '#ab94c0', name: 'Grape Goodness' },
+  { flavor: 'lemonLime', color: '#164405', lightColor: '#8aa182', name: 'Lemon Lime' },
   {
     flavor: 'strawberryLemonade',
     color: '#690B3D',
+    lightColor: '#b4859e',
     name: 'Strawberry Lemonade',
   },
-  { flavor: 'watermelon', color: '#4B7002', name: 'Watermelon Crush' },
+  { flavor: 'watermelon', color: '#4B7002', lightColor: '#a5b780', name: 'Watermelon Crush' },
 ];
 
-type Props = {};
-
-export default function CarouselSection({}: Props) {
+export default function CarouselSection({
+  endWaveRef,
+}: {
+  endWaveRef: RefObject<HTMLDivElement | null>;
+}) {
   const [currentFlavorIndex, setCurrentFlavorIndex] = useState<number>(0);
-  console.log({ currentFlavorIndex });
   const sodaCanRef = useRef<Group>(null);
 
   useGSAP(() => {
@@ -45,7 +49,7 @@ export default function CarouselSection({}: Props) {
     const nextIndex = (index + FLAVORS.length) % FLAVORS.length;
 
     const tl = gsap.timeline();
-    if (sodaCanRef.current) {
+    if (sodaCanRef.current && endWaveRef.current) {
       tl.to(
         sodaCanRef.current?.rotation,
         {
@@ -66,6 +70,17 @@ export default function CarouselSection({}: Props) {
             ease: 'power2.inOut',
           },
           0.3,
+        )
+        .to(
+          ['.carousel-wave-divider path', endWaveRef.current],
+          {
+            fill: FLAVORS[nextIndex].lightColor,
+            backgroundColor: (_, target) => {
+              return target === endWaveRef.current ? FLAVORS[nextIndex].lightColor : 'unset';
+            },
+            ease: 'power2.inOut',
+          },
+          '<',
         )
         .to(
           '.text-wrapper',
@@ -98,60 +113,61 @@ export default function CarouselSection({}: Props) {
   };
 
   return (
-    <section className="carousel relative grid h-[110vh] grid-rows-[auto,4fr,auto] justify-center overflow-hidden bg-white py-12 text-white">
-      <div className="background abs-fill pointer-events-none bg-[#710523] opacity-50"></div>
-      <WavyCircles className="absolute top-1/2 left-1/2 h-[110vmin] -translate-1/2 text-[#710523]" />
-      <h2 className="relative text-center text-5xl font-bold">Choose your flavor</h2>
-      <div className="grid grid-cols-[auto_auto_auto] items-center">
-        <button
-          onClick={() => changeFlavor(currentFlavorIndex - 1)}
-          className="cursor flex-center group relative z-20 size-12 rounded-full duration-200 hover:scale-125 focus-visible:scale-125"
-        >
-          <WavyCircles
-            className="abs-fill group-focus-visible:animate-spin hover:animate-spin"
-            notAnimated={true}
-          />
-          <MoveLeft />
-        </button>
-        <View className="aspect-square h-[70vmin] min-h-40">
-          <Center position={[0, 0, 1.5]}>
-            <group ref={sodaCanRef}>
-              <FloatingCan
-                flavor={FLAVORS[currentFlavorIndex].flavor}
-                floatIntensity={0.3}
-                rotationIntensity={1}
-              />
-            </group>
-          </Center>
-
-          <Environment
-            files="/hdr/lobby.hdr"
-            environmentIntensity={0.6}
-            environmentRotation={[0, 3, 0]}
-          />
-          <directionalLight intensity={6} position={[0, 1, 1]} />
-        </View>
-        <button
-          onClick={() => changeFlavor(currentFlavorIndex + 1)}
-          className="cursor flex-center group relative z-20 size-12 rounded-full duration-200 hover:scale-125 focus-visible:scale-125"
-        >
-          <WavyCircles
-            className="abs-fill group-focus-visible:animate-spin hover:animate-spin"
-            fill="#710523"
-            notAnimated={true}
-          />
-          <MoveRight />
-        </button>
-      </div>
-
-      <div className="text-area relative mx-auto text-center">
-        <div className="text-wrapper text-4xl font-medium">
-          <p>{FLAVORS[currentFlavorIndex].name}</p>
+    <>
+      <WaveDivider className="carousel-wave-divider" />
+      <section className="carousel relative grid h-[110vh] grid-rows-[auto,4fr,auto] justify-center overflow-hidden bg-white py-12 text-white">
+        <div className="background abs-fill pointer-events-none bg-[#710523] opacity-50"></div>
+        <WavyCircles className="absolute top-1/2 left-1/2 h-[110vmin] -translate-1/2 text-[#710523]" />
+        <h2 className="relative text-center text-5xl font-bold">Choose your flavor</h2>
+        <div className="grid grid-cols-[auto_auto_auto] items-center">
+          <button
+            onClick={() => changeFlavor(currentFlavorIndex - 1)}
+            className="cursor flex-center group relative z-20 size-12 rounded-full duration-200 hover:scale-125 focus-visible:scale-125"
+          >
+            <WavyCircles
+              className="abs-fill group-focus-visible:animate-spin hover:animate-spin"
+              notAnimated={true}
+            />
+            <MoveLeft />
+          </button>
+          <View className="aspect-square h-[70vmin] min-h-40">
+            <Center position={[0, 0, 1.5]}>
+              <group ref={sodaCanRef}>
+                <FloatingCan
+                  flavor={FLAVORS[currentFlavorIndex].flavor}
+                  floatIntensity={0.3}
+                  rotationIntensity={1}
+                />
+              </group>
+            </Center>
+            <Environment
+              files="/hdr/lobby.hdr"
+              environmentIntensity={0.6}
+              environmentRotation={[0, 3, 0]}
+            />
+            <directionalLight intensity={6} position={[0, 1, 1]} />
+          </View>
+          <button
+            onClick={() => changeFlavor(currentFlavorIndex + 1)}
+            className="cursor flex-center group relative z-20 size-12 rounded-full duration-200 hover:scale-125 focus-visible:scale-125"
+          >
+            <WavyCircles
+              className="abs-fill group-focus-visible:animate-spin hover:animate-spin"
+              fill="#710523"
+              notAnimated={true}
+            />
+            <MoveRight />
+          </button>
         </div>
-        <div className="mt-2 text-2xl font-normal opacity-90">
-          <p>12 cans - $69.99</p>
+        <div className="text-area relative mx-auto text-center">
+          <div className="text-wrapper text-4xl font-medium">
+            <p>{FLAVORS[currentFlavorIndex].name}</p>
+          </div>
+          <div className="mt-2 text-2xl font-normal opacity-90">
+            <p>12 cans - $69.99</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

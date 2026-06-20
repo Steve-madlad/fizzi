@@ -1,7 +1,9 @@
 'use client';
 
 import { Container } from '@/components/Container';
+import { WaveDivider } from '@/components/svg/WavyDivider';
 import { View } from '@react-three/drei';
+import { forwardRef } from 'react';
 import Scene from './Scene';
 
 const textInfo = [
@@ -22,28 +24,35 @@ const textInfo = [
   },
 ];
 
-export default function AlternatingInfo() {
+function AlternatingInfo({}, waveRef: React.ForwardedRef<HTMLDivElement>) {
   return (
-    <Container className="alternating-text-container relative bg-[#FFA6B5]">
-      <div>
-        <div className="relative grid">
-          <View className="alternating-can-view absolute top-0 left-0 h-screen w-full">
-            <Scene />
-          </View>
-
-          {textInfo.map((info, index) => (
-            <div
-              key={info.heading}
-              className="alternating-section grid h-screen place-items-center gap-x-12 text-sky-950 md:grid-cols-2"
-            >
-              <div className={index % 2 === 0 ? 'col-start-1' : 'md:col-start-2'}>
-                <h2 className="text-6xl font-bold text-balance">{info.heading}</h2>
-                <p className="mt-4 text-xl">{info.subHeading}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+    <>
+      <div ref={waveRef} className="bg-[#b88291]">
+        <WaveDivider fill="#FFA6B5" />
       </div>
-    </Container>
+      <Container className="alternating-text-container relative bg-[#FFA6B5]">
+        <div>
+          <div className="relative grid">
+            <View className="alternating-can-view absolute top-0 left-0 h-screen w-full">
+              <Scene />
+            </View>
+            {textInfo.map((info, index) => (
+              <div
+                key={info.heading}
+                className="alternating-section grid h-screen place-items-center gap-x-12 text-sky-950 md:grid-cols-2"
+              >
+                <div className={index % 2 === 0 ? 'col-start-1' : 'md:col-start-2'}>
+                  <h2 className="text-6xl font-bold text-balance">{info.heading}</h2>
+                  <p className="mt-4 text-xl">{info.subHeading}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </>
   );
 }
+
+AlternatingInfo.displayName = 'AlternatingInfo';
+export default forwardRef(AlternatingInfo);

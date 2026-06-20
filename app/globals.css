@@ -121,7 +121,7 @@
   .abs-fill {
     @apply absolute inset-0;
   }
-  .invert {
+  .flip-x {
     @apply -scale-x-100
   }
   .card-shadow {

@@ -8,7 +8,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRef } from 'react';
 import { Group } from 'three';
-import { FizziLogo } from './FizziLogo';
+import { FizziLogo } from './svg/FizziLogo';
+import { WaveDivider } from './svg/WavyDivider';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -128,52 +129,59 @@ export default function Footer() {
   );
 
   return (
-    <footer ref={containerRef} className="relative overflow-hidden bg-[#8C0413] text-white">
-      {/* Giant background word */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-[30vw] font-black tracking-[-0.08em] text-white/5 select-none">
-        FIZZI
+    <>
+      <div className="flip-x bg-[#FDE047]">
+        <WaveDivider animate={false} className="belt-wave-divider h-15 md:h-45" fill="#8C0413" />
       </div>
-
-      {/* Bubbles */}
-      <div className="footer-bubble absolute top-[20%] left-[10%] size-10 rounded-full bg-white/10" />
-      <div className="footer-bubble absolute top-[65%] left-[20%] size-20 rounded-full bg-white/10" />
-      <div className="footer-bubble absolute top-[30%] right-[10%] size-16 rounded-full bg-white/10" />
-      <div className="footer-bubble absolute top-[75%] right-[25%] size-8 rounded-full bg-white/15" />
-      <div className="footer-bubble absolute top-[15%] left-[60%] size-12 rounded-full bg-white/10" />
-
-      <div className="relative mx-auto max-w-7xl px-6 pt-32 pb-16">
-        {/* Rendered Modular 3D Layer */}
-        <FooterCans triggerRef={containerRef} />
-
-        {/* Hero Content Area */}
-        <div className="relative z-10 mt-12 flex flex-col items-center text-center">
-          <FizziLogo className="h-24 text-[#FDE047]" />
-
-          <h2 className="mt-8 max-w-4xl text-5xl font-black uppercase md:text-7xl">Live Gutsy.</h2>
-
-          <p className="mt-6 max-w-2xl text-xl text-white/80">
-            Real fruit. Low sugar. Gut-friendly soda that actually tastes amazing.
-          </p>
-
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <button className="rounded-full bg-[#FDE047] px-8 py-4 font-black text-[#8C0413] transition-transform hover:scale-105">
-              SHOP NOW
-            </button>
-
-            <button className="rounded-full border-2 border-white/30 px-8 py-4 font-black transition-transform hover:scale-105">
-              EXPLORE FLAVORS
-            </button>
-          </div>
+      <footer ref={containerRef} className="relative overflow-hidden bg-[#8C0413] text-white">
+        {/* Giant background word */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-[30vw] font-black tracking-[-0.08em] text-white/5 select-none">
+          FIZZI
         </div>
 
-        {/* Flavor Ticker */}
-        <div className="mt-32 overflow-hidden select-none">
-          <div className="ticker-marquee flex w-max -translate-x-1/2 [--ticker-speed:20s]">
-            {[...Array(6)].map((_, containerIdx) => (
-              <div key={containerIdx} className="flex shrink-0 items-center">
+        {/* Bubbles */}
+        <div className="footer-bubble absolute top-[20%] left-[10%] size-10 rounded-full bg-white/10" />
+        <div className="footer-bubble absolute top-[65%] left-[20%] size-20 rounded-full bg-white/10" />
+        <div className="footer-bubble absolute top-[30%] right-[10%] size-16 rounded-full bg-white/10" />
+        <div className="footer-bubble absolute top-[75%] right-[25%] size-8 rounded-full bg-white/15" />
+        <div className="footer-bubble absolute top-[15%] left-[60%] size-12 rounded-full bg-white/10" />
+
+        <div className="relative mx-auto max-w-7xl px-6 pt-32 pb-16">
+          {/* Rendered Modular 3D Layer */}
+          <FooterCans triggerRef={containerRef} />
+
+          {/* Hero Content Area */}
+          <div className="relative z-10 mt-12 flex flex-col items-center text-center">
+            <FizziLogo className="h-24 text-[#FDE047]" />
+
+            <h2 className="mt-8 max-w-4xl text-5xl font-black uppercase md:text-7xl">
+              Stay Gutsy.
+            </h2>
+
+            <p className="mt-6 max-w-2xl text-xl text-white/80">
+              Real fruit. Low sugar. Gut-friendly soda that actually tastes amazing.
+            </p>
+
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <button className="rounded-full bg-[#FDE047] px-8 py-4 font-black text-[#8C0413] transition-transform hover:scale-105">
+                SHOP NOW
+              </button>
+
+              <button className="rounded-full border-2 border-white/30 px-8 py-4 font-black transition-transform hover:scale-105">
+                EXPLORE FLAVORS
+              </button>
+            </div>
+          </div>
+
+          {/* Flavor Ticker */}
+          <div className="mt-32 w-full overflow-hidden select-none">
+            {/* The wrapper container */}
+            <div className="animate-convey-fw flex w-max">
+              {/* Track 1 */}
+              <div className="flex shrink-0 items-center">
                 {FLAVORS.map((item, index) => (
                   <div
-                    key={`${containerIdx}-${index}`}
+                    key={`track1-${index}`}
                     className="mx-4 flex items-center gap-3 rounded-full bg-white/10 px-6 py-3 backdrop-blur"
                   >
                     <span className="text-xl leading-none">{item.emoji}</span>
@@ -181,57 +189,72 @@ export default function Footer() {
                   </div>
                 ))}
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Navigation & Footer Links */}
-        <div className="mt-24 grid gap-12 border-t border-white/10 pt-12 md:grid-cols-4">
-          <div>
-            <h3 className="text-sm font-black tracking-wider uppercase">Products</h3>
-            <ul className="mt-4 space-y-2 text-sm font-medium text-white/70">
-              <li className="cursor-pointer transition-colors hover:text-white">All Flavors</li>
-              <li className="cursor-pointer transition-colors hover:text-white">Variety Packs</li>
-              <li className="cursor-pointer transition-colors hover:text-white">Subscriptions</li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-black tracking-wider uppercase">Company</h3>
-            <ul className="mt-4 space-y-2 text-sm font-medium text-white/70">
-              <li className="cursor-pointer transition-colors hover:text-white">About</li>
-              <li className="cursor-pointer transition-colors hover:text-white">Our Story</li>
-              <li className="cursor-pointer transition-colors hover:text-white">Careers</li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-black tracking-wider uppercase">Social</h3>
-            <ul className="mt-4 space-y-2 text-sm font-medium text-white/70">
-              <li className="cursor-pointer transition-colors hover:text-white">Instagram</li>
-              <li className="cursor-pointer transition-colors hover:text-white">TikTok</li>
-              <li className="cursor-pointer transition-colors hover:text-white">YouTube</li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-black tracking-wider uppercase">Stay Gutsy</h3>
-            <div className="mt-4 flex rounded-full bg-white p-1 shadow-sm">
-              <input
-                placeholder="Email address"
-                className="flex-1 bg-transparent px-4 text-sm text-black outline-none"
-              />
-              <button className="rounded-full bg-[#FDE047] px-5 py-2 text-sm font-black text-[#8C0413] transition-colors hover:bg-[#ebd03b]">
-                Join
-              </button>
+              {/* Track 2 (Exact Duplicate for Seamless Loop) */}
+              <div className="flex shrink-0 items-center">
+                {FLAVORS.map((item, index) => (
+                  <div
+                    key={`track2-${index}`}
+                    className="mx-4 flex items-center gap-3 rounded-full bg-white/10 px-6 py-3 backdrop-blur"
+                  >
+                    <span className="text-xl leading-none">{item.emoji}</span>
+                    <span className="text-sm font-bold tracking-wide uppercase">{item.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="mt-16 text-center text-xs tracking-wide text-white/40">
-          © {new Date().getFullYear()} Fizzi. Live Gutsy.
+          {/* Navigation & Footer Links */}
+          <div className="align-center mt-24 flex-wrap justify-between gap-12 border-t border-white/10 pt-12">
+            <div>
+              <h3 className="text-sm font-black tracking-wider uppercase">Products</h3>
+              <ul className="mt-4 space-y-2 text-sm font-medium text-white/70">
+                <li className="cursor-pointer transition-colors hover:text-white">All Flavors</li>
+                <li className="cursor-pointer transition-colors hover:text-white">Variety Packs</li>
+                <li className="cursor-pointer transition-colors hover:text-white">Subscriptions</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-black tracking-wider uppercase">Company</h3>
+              <ul className="mt-4 space-y-2 text-sm font-medium text-white/70">
+                <li className="cursor-pointer transition-colors hover:text-white">About</li>
+                <li className="cursor-pointer transition-colors hover:text-white">Our Story</li>
+                <li className="cursor-pointer transition-colors hover:text-white">Careers</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-black tracking-wider uppercase">Social</h3>
+              <ul className="mt-4 space-y-2 text-sm font-medium text-white/70">
+                <li className="cursor-pointer transition-colors hover:text-white">Instagram</li>
+                <li className="cursor-pointer transition-colors hover:text-white">TikTok</li>
+                <li className="cursor-pointer transition-colors hover:text-white">YouTube</li>
+              </ul>
+            </div>
+
+            <div className="w-full sm:w-auto">
+              <h3 className="text-sm font-black tracking-wider uppercase">Stay Gutsy</h3>
+              <p className="mt-2 text-sm text-white/70">Subscribe to our newsletter</p>
+              <div className="relative mt-4 flex w-full rounded-full bg-white p-1 shadow-sm sm:min-w-60">
+                <input
+                  placeholder="Email address"
+                  className="flex-1 bg-transparent px-4 py-2 text-sm text-black outline-none"
+                />
+                <button className="abs-y-center right-1 rounded-full bg-[#FDE047] px-5 py-2 text-sm font-black text-[#8C0413] transition-colors hover:bg-[#ebd03b]">
+                  Join
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 text-center text-base tracking-wide text-white/40">
+            <p>Copyright © 2023 Fizzi, Inc. All rights reserved.</p>
+            <p>Stay Gutsy.</p>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }

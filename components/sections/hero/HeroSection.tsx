@@ -53,6 +53,7 @@ export default function Hero() {
 
     const scrollTl = gsap.timeline({
       scrollTrigger: {
+        trigger: ".hero",
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1.5,
