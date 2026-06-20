@@ -14,7 +14,7 @@ export default function Home() {
       <Hero />
       <Dive />
       <CarouselxAlternating />
-      <BeltSection />
+      <BeltSection /> */}
     </div>
   );
 }

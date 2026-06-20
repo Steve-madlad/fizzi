@@ -6,12 +6,12 @@ import { useAppStore } from '@/store/appStore';
 import { useGSAP } from '@gsap/react';
 import { View } from '@react-three/drei';
 import gsap from 'gsap';
+import { SplitText } from 'gsap/all';
 import Image from 'next/image';
 import { Container } from '../../Container';
 import { TextSplitter } from '../../TextSplitter';
 import { Bubbles } from '../../three/Bubbles';
 import Scene from './Scene';
-import { ScrollTrigger } from 'gsap/all';
 
 export default function Hero() {
   const { isReady } = useAppStore();
@@ -53,11 +53,16 @@ export default function Hero() {
 
     const scrollTl = gsap.timeline({
       scrollTrigger: {
-        trigger: ".hero",
+        trigger: '.hero',
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1.5,
       },
+    });
+
+    const textBodySplit = SplitText.create('.text-side-body', {
+      type: 'words, lines',
+      linesClass: 'paragraph-line',
     });
 
     scrollTl
@@ -81,9 +86,12 @@ export default function Hero() {
         ease: 'back.out(3)',
         duration: 0.5,
       })
-      .from('.text-side-body', {
+      .from([textBodySplit.words], {
+        yPercent: 300,
         opacity: 0,
-        y: 20,
+        rotate: 3,
+        ease: 'power1.out',
+        stagger: 0.01,
       });
   }, [isReady, isDesktop]);
 
@@ -110,7 +118,7 @@ export default function Hero() {
               Soda Perfected
             </h2>
             <p className="hero-body 3xl:text-2xl text-xl font-normal text-sky-950">
-              3-5g sugar, 9g fiber, 5 delicious flavors{' '}
+              3-5g sugar, 9g fiber, 5 delicious flavors
             </p>
             <button className="hero-button cursor 3xl:text-2xl mt-12 rounded-xl bg-orange-600 px-5 py-4 text-center text-xl font-bold tracking-wide text-white uppercase transition-colors duration-150 hover:bg-orange-700">
               Shop now
@@ -124,7 +132,7 @@ export default function Hero() {
             <h2 className="text-side-heading text-6xl font-black text-balance text-sky-950 uppercase lg:text-8xl">
               <TextSplitter text="try all five flavours" />
             </h2>
-            <p className="text-side-body mt-4 max-w-xl text-xl font-normal text-balance text-sky-950">
+            <p className="text-side-body overflow-hidden mt-4 max-w-xl text-xl font-normal text-balance text-sky-950">
               Our soda is made with real fruit juice and a touch of cane sugar. We never use
               artificial sweeteners or high fructose corn syrup. Try all five flavors and find your
               favorite!

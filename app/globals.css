@@ -1,6 +1,5 @@
 @import 'tailwindcss';
 
-
 @theme inline {
   --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;
@@ -122,7 +121,7 @@
     @apply absolute inset-0;
   }
   .flip-x {
-    @apply -scale-x-100
+    @apply -scale-x-100;
   }
   .card-shadow {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
@@ -135,6 +134,14 @@
   }
 }
 
-body {
-  font-family: var(--font-alpino), "sans-serif";
+@layer components {
+  .paragraph-line {
+    @apply overflow-hidden text-nowrap;
+  }
+}
+
+@layer base {
+  body {
+    font-family: var(--font-alpino), 'sans-serif';
+  }
 }
