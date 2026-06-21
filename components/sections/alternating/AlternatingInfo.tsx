@@ -32,7 +32,7 @@ function AlternatingInfo({}, waveRef: React.ForwardedRef<HTMLDivElement>) {
       </div>
       <Container className="alternating-text-container relative bg-[#FFA6B5]">
         <div>
-          <div className="relative grid">
+          <div className="relative grid py-60 md:py-0">
             <View className="alternating-can-view absolute top-0 left-0 h-screen w-full">
               <Scene />
             </View>

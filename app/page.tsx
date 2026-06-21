@@ -8,6 +8,13 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({
+  ignoreMobileResize: true,
+});
+
+if (ScrollTrigger.isTouch === 1) {
+  ScrollTrigger.normalizeScroll(true);
+}
 export default function Home() {
   return (
     <div>

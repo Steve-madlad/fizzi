@@ -5,7 +5,6 @@ import useMediaQuery from '@/hooks/useMediaQuery';
 import { useGSAP } from '@gsap/react';
 import { Environment } from '@react-three/drei';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
 import { useRef } from 'react';
 import { Group } from 'three';
 
@@ -13,7 +12,7 @@ export default function Scene() {
   const canRef = useRef<Group>(null);
   const bgColors = ['#FFA6B5', '#a79fff', '#CBEF9A'];
 
-  const isDesktop = useMediaQuery('(min-width: 768px)', true);
+  const isDesktop = useMediaQuery('(min-width: 769px)', true);
 
   useGSAP(() => {
     if (!canRef.current) return;
@@ -26,41 +25,77 @@ export default function Scene() {
         endTrigger: '.alternating-text-container',
         pin: true,
         start: 'top top',
-        end: 'bottom bottom',
+        end: `bottom ${'bottom' + (isDesktop ? '' : '-=190px')}`,
         scrub: true,
+        markers: true,
       },
     });
 
-    sections.forEach((_, index) => {
-      if (!canRef.current || !index) return;
+    const mm = gsap.matchMedia();
 
-      const positionX = isDesktop ? index % 2 !== 0 ? -1.5 : 1.5 : 0;
-      scrollTl
-        .to(canRef.current.rotation, {
-          y: index % 2 !== 0 ? `-=${Math.PI * 1.8}` : `+=${Math.PI * 1.8}`,
-          ease: 'circ.inOut',
-        })
-        .to(
-          canRef.current.position,
-          {
-            x: positionX,
+    mm.add('(min-width: 769px)', () => {
+      sections.forEach((_, index) => {
+        if (!index || !canRef.current) return;
+
+        const positionX = index % 2 !== 0 ? -1.5 : 1.5;
+        const rotationFactor = 1.8;
+        const rotationY =
+          index % 2 === 0 ? `+=${Math.PI * rotationFactor}` : `-=${Math.PI * rotationFactor}`;
+
+        scrollTl
+          .to(canRef.current.rotation, {
+            y: rotationY,
             ease: 'circ.inOut',
-          },
-          '<',
-        )
-        .to(
-          '.alternating-text-container',
-          {
-            backgroundColor: bgColors[index],
-          },
-          '<',
-        );
+          })
+          .to(
+            canRef.current.position,
+            {
+              x: positionX,
+              ease: 'circ.inOut',
+            },
+            '<',
+          )
+          .to(
+            '.alternating-text-container',
+            {
+              backgroundColor: bgColors[index],
+            },
+            '<',
+          );
+      });
+    });
+
+    mm.add('(max-width: 768px)', () => {
+      const mobileScale = 0.7;
+
+      gsap.set(canRef.current!.scale, { x: mobileScale, y: mobileScale, z: mobileScale });
+      gsap.set(canRef.current!.position, { x: 0, y: 0.4 });
+
+      const continuousRotationY = `+=${Math.PI * 10}`;
+
+      sections.forEach((_, index) => {
+        if (!index) return;
+
+        scrollTl.to('.alternating-text-container', {
+          backgroundColor: bgColors[index],
+        });
+      });
+
+      scrollTl.to(
+        canRef.current!.rotation,
+        {
+          y: continuousRotationY,
+          ease: 'none',
+          duration: 1,
+        },
+        0,
+      );
     });
   }, [isDesktop]);
 
   return (
     <group ref={canRef} position-x={isDesktop ? 1.5 : 0} rotation-y={-0.4}>
-      <FloatingCan ref={canRef} flavor="strawberryLemonade" />
+      <FloatingCan ref={canRef} flavor="strawberryLemonade" rotationIntensity={isDesktop ? 1 : .4}/>
       <Environment files="hdr/lobby.hdr" environmentIntensity={1.5} />
     </group>
   );

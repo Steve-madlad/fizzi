@@ -2,6 +2,7 @@
 
 import { WaveDivider } from '@/components/svg/WavyDivider';
 import FloatingCan from '@/components/three/Floating';
+import { useMediaQuery } from 'react-responsive';
 import { useGSAP } from '@gsap/react';
 import { Environment, View } from '@react-three/drei';
 import gsap from 'gsap';
@@ -34,6 +35,8 @@ export default function BeltSection() {
 
   const canRef = useRef<Group>(null);
 
+  const isMobile = useMediaQuery({query: '(max-width: 768px)'});
+
   useGSAP(() => {
     const top = topTrack.current;
     const bottom = bottomTrack.current;
@@ -53,7 +56,7 @@ export default function BeltSection() {
 
     gsap.to(bottom, {
       xPercent: 0,
-      duration: 18,
+      duration: isMobile ? 40 : 18,
       ease: 'none',
       repeat: -1,
     });
@@ -75,7 +78,7 @@ export default function BeltSection() {
       yoyo: true,
       ease: 'sine.inOut',
     });
-  }, []);
+  }, [isMobile]);
 
   const topItems = Array(24).fill('LIVE GUTSY ✦ REAL FRUIT ✦ PROBIOTIC SODA ✦ LOW SUGAR ✦');
   const bottomItems = Array(24).fill('BOLD FLAVOR ✦ HAPPY GUT ✦ NATURAL INGREDIENTS ✦');

@@ -67,7 +67,6 @@ export default function Hero() {
             start: !breakpoints?.isMobile ? 'top top' : 'center center',
             end: !breakpoints?.isMobile ? 'bottom bottom' : 'bottom 80%',
             scrub: 1.5,
-            markers: true,
           },
         });
 

@@ -11,8 +11,6 @@ import { Group } from 'three';
 import { FizziLogo } from './svg/FizziLogo';
 import { WaveDivider } from './svg/WavyDivider';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const FLAVORS = [
   { flavor: 'blackCherry', emoji: '🍒', name: 'Black Cherry' },
   { flavor: 'grape', emoji: '🍇', name: 'Grape Goodness' },
