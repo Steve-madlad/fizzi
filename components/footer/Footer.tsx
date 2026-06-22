@@ -1,15 +1,12 @@
 'use client';
 
-import FloatingCan from '@/components/three/Floating';
-import { SodaCanProps } from '@/components/three/SodaCan';
 import { useGSAP } from '@gsap/react';
-import { Environment, View } from '@react-three/drei';
+import { View } from '@react-three/drei';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRef } from 'react';
-import { Group } from 'three';
-import { FizziLogo } from './svg/FizziLogo';
-import { WaveDivider } from './svg/WavyDivider';
+import { FizziLogo } from '../svg/FizziLogo';
+import { WaveDivider } from '../svg/WavyDivider';
+import { FooterCanLayout, FooterCansScene, MobileCanScene } from './Scene';
 
 const FLAVORS = [
   { flavor: 'blackCherry', emoji: '🍒', name: 'Black Cherry' },
@@ -19,95 +16,38 @@ const FLAVORS = [
   { flavor: 'watermelon', emoji: '🍉', name: 'Watermelon Crush' },
 ] as const;
 
-type FooterCanLayout = {
-  flavor: SodaCanProps['flavor'];
-  x: number;
-  y: number;
-  scale?: number;
-  floatIntensity?: number;
-  rotationIntensity?: number;
-};
-
-const FOOTER_CANS: FooterCanLayout[] = [
-  { flavor: 'blackCherry', x: -2.4, y: 0.2, floatIntensity: 1.5, rotationIntensity: 1.5 },
-  { flavor: 'grape', x: -0.9, y: 0.55, scale: 0.95, floatIntensity: 1.2, rotationIntensity: 1 },
+const DESKTOP_FOOTER_CANS: FooterCanLayout[] = [
+  {
+    flavor: 'blackCherry',
+    x: -0.9,
+    y: 0.55,
+    scale: 0.95,
+    floatIntensity: 1.2,
+    rotationIntensity: 1,
+  },
+  { flavor: 'grape', x: -2.4, y: 0.2, floatIntensity: 1.5, rotationIntensity: 1.5 },
   { flavor: 'lemonLime', x: 0.9, y: 0.55, scale: 0.95, floatIntensity: 1.2, rotationIntensity: 1 },
   { flavor: 'watermelon', x: 2.4, y: 0.2, floatIntensity: 1.5, rotationIntensity: 1.5 },
 ];
 
-const RESTING_SCALE = 0.8;
-
-function FooterCansScene({ triggerRef }: { triggerRef: React.RefObject<HTMLElement | null> }) {
-  const can1 = useRef<Group>(null);
-  const can2 = useRef<Group>(null);
-  const can3 = useRef<Group>(null);
-  const can4 = useRef<Group>(null);
-  const cans = [can1, can2, can3, can4];
-
-  useGSAP(() => {
-    if (!triggerRef.current || cans.some((ref) => !ref.current)) return;
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: triggerRef.current,
-        start: 'top bottom',
-        end: 'top 20%',
-        scrub: 1.5,
-      },
-    });
-
-    cans.forEach((ref, index) => {
-      const { x, y } = FOOTER_CANS[index];
-
-      tl.fromTo(
-        ref.current!.position,
-        { x, y: y - 1.5, z: 3 },
-        { x, y, z: 0, duration: 1, ease: 'power2.out' },
-        0,
-      )
-        .fromTo(
-          ref.current!.rotation,
-          { y: 0, x: -1 },
-          { y: Math.PI * 6, x: 0, duration: 1, ease: 'power2.out' },
-          0,
-        )
-        .fromTo(
-          ref.current!.scale,
-          { x: 1.15, y: 1.15, z: 1.15 },
-          { x: RESTING_SCALE, y: RESTING_SCALE, z: RESTING_SCALE, duration: 1, ease: 'power2.out' },
-          0,
-        );
-    });
-  });
-
-  return (
-    <>
-      {FOOTER_CANS.map((can, index) => (
-        <group key={can.flavor} ref={cans[index]} position={[can.x, can.y, 0]}>
-          <FloatingCan
-            flavor={can.flavor}
-            scale={can.scale}
-            floatIntensity={can.floatIntensity}
-            rotationIntensity={can.rotationIntensity}
-          />
-        </group>
-      ))}
-      <ambientLight intensity={1.5} color="#9DDEFA" />
-      <directionalLight position={[2, 4, 3]} intensity={1.5} />
-      <Environment files="/hdr/lobby.hdr" environmentIntensity={1.2} />
-    </>
-  );
-}
-
-function FooterCans({ triggerRef }: { triggerRef: React.RefObject<HTMLElement | null> }) {
-  return (
-    <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-100 lg:block">
-      <View className="absolute inset-0 h-full w-full">
-        <FooterCansScene triggerRef={triggerRef} />
-      </View>
-    </div>
-  );
-}
+const TABLET_FOOTER_CANS: FooterCanLayout[] = [
+  { flavor: 'grape', x: -1.35, y: 0.1, scale: 0.95, floatIntensity: 1.4, rotationIntensity: 1.4 },
+  {
+    flavor: 'blackCherry',
+    x: 0,
+    y: 0.55,
+    floatIntensity: 1.2,
+    rotationIntensity: 1,
+  },
+  {
+    flavor: 'lemonLime',
+    x: 1.35,
+    y: 0.1,
+    scale: 0.95,
+    floatIntensity: 1.4,
+    rotationIntensity: 1.4,
+  },
+];
 
 export default function Footer() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -131,24 +71,39 @@ export default function Footer() {
       <div className="flip-x bg-[#FDE047]">
         <WaveDivider animate={false} className="belt-wave-divider h-15 md:h-45" fill="#8C0413" />
       </div>
-      <footer ref={containerRef} className="relative overflow-hidden bg-[#8C0413] text-white">
-        {/* Giant background word */}
+      <footer
+        ref={containerRef}
+        className="relative overflow-hidden bg-[#8C0413] text-white lg:pt-0"
+      >
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-[30vw] font-black tracking-[-0.08em] text-white/5 select-none">
           FIZZI
         </div>
 
-        {/* Bubbles */}
         <div className="footer-bubble absolute top-[20%] left-[10%] size-10 rounded-full bg-white/10" />
         <div className="footer-bubble absolute top-[65%] left-[20%] size-20 rounded-full bg-white/10" />
         <div className="footer-bubble absolute top-[30%] right-[10%] size-16 rounded-full bg-white/10" />
         <div className="footer-bubble absolute top-[75%] right-[25%] size-8 rounded-full bg-white/15" />
         <div className="footer-bubble absolute top-[15%] left-[60%] size-12 rounded-full bg-white/10" />
 
-        <div className="relative mx-auto max-w-7xl px-6 pt-32 pb-16">
-          {/* Rendered Modular 3D Layer */}
-          <FooterCans triggerRef={containerRef} />
+        <div className="relative mx-auto max-w-7xl px-6 pt-55 pb-16">
+          <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-100 sm:block lg:hidden">
+            <View className="absolute inset-0 size-full">
+              <FooterCansScene cansLayout={TABLET_FOOTER_CANS} triggerRef={containerRef} />
+            </View>
+          </div>
 
-          {/* Hero Content Area */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-100 lg:block">
+            <View className="absolute inset-0 size-full">
+              <FooterCansScene cansLayout={DESKTOP_FOOTER_CANS} triggerRef={containerRef} />
+            </View>
+          </div>
+
+          <div className="pointer-events-none absolute inset-x-0 top-0 block h-100 sm:hidden">
+            <View className="absolute inset-0 size-full">
+              <MobileCanScene />
+            </View>
+          </div>
+
           <div className="relative z-10 mt-12 flex flex-col items-center text-center">
             <FizziLogo className="h-24 text-[#FDE047]" />
 
@@ -171,11 +126,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Flavor Ticker */}
           <div className="mt-32 w-full overflow-hidden select-none">
-            {/* The wrapper container */}
-            <div className="animate-move-fw -translate-x-1/2 flex w-max">
-              {/* Track 1 */}
+            <div className="animate-convey-fw flex w-max">
               <div className="flex shrink-0 items-center">
                 {FLAVORS.map((item, index) => (
                   <div
@@ -188,7 +140,6 @@ export default function Footer() {
                 ))}
               </div>
 
-              {/* Track 2 (Exact Duplicate for Seamless Loop) */}
               <div className="flex shrink-0 items-center">
                 {FLAVORS.map((item, index) => (
                   <div
@@ -203,7 +154,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Navigation & Footer Links */}
           <div className="align-center mt-24 flex-wrap justify-between gap-12 border-t border-white/10 pt-12">
             <div>
               <h3 className="text-sm font-black tracking-wider uppercase">Products</h3>
@@ -238,7 +188,7 @@ export default function Footer() {
               <div className="relative mt-4 flex w-full rounded-full bg-white p-1 shadow-sm sm:min-w-60">
                 <input
                   placeholder="Email address"
-                  className="flex-1 bg-transparent px-4 py-2 text-sm text-black outline-none"
+                  className="flex-1 bg-transparent px-4 py-2 pr-20 text-sm text-black outline-none"
                 />
                 <button className="abs-y-center right-1 rounded-full bg-[#FDE047] px-5 py-2 text-sm font-black text-[#8C0413] transition-colors hover:bg-[#ebd03b]">
                   Join

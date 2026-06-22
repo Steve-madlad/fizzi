@@ -23,7 +23,6 @@
   --convey-duration: 5s;
   --convey-fw: conveyForwards var(--convey-duration) linear infinite;
   --convey-bk: conveyBackwards var(--convey-duration) linear infinite;
-  --move-fw: moveForwards var(--convey-duration) linear infinite;
   --spin-slow: spin 6s linear infinite;
   --slide-left: slide-left 6s linear infinite;
 }
@@ -52,15 +51,6 @@
   }
   100% {
     transform: translateX(0);
-  }
-}
-
-@keyframes moveForwards {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0%);
   }
 }
 
