@@ -5,7 +5,7 @@ import useMediaQuery from '@/hooks/useMediaQuery';
 import { useGSAP } from '@gsap/react';
 import { Environment } from '@react-three/drei';
 import gsap from 'gsap';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Group } from 'three';
 
 export default function Scene() {
@@ -27,43 +27,69 @@ export default function Scene() {
         start: 'top top',
         end: `bottom ${'bottom' + (isDesktop ? '' : '-=190px')}`,
         scrub: true,
-        markers: true,
       },
     });
 
     const mm = gsap.matchMedia();
 
-    mm.add('(min-width: 769px)', () => {
-      sections.forEach((_, index) => {
-        if (!index || !canRef.current) return;
+    mm.add(
+      {
+        isDesktop: '(min-width: 1024px)',
+        isTablet: '(min-width: 769px)',
+        isBetween: '(min-width: 769px) and (max-width: 1023px)',
+      },
+      ({ conditions }) => {
+        const { isTablet, isBetween, isDesktop } = conditions!;
+        if (isBetween) {
+          const tabletScale = 0.8;
 
-        const positionX = index % 2 !== 0 ? -1.5 : 1.5;
-        const rotationFactor = 1.8;
-        const rotationY =
-          index % 2 === 0 ? `+=${Math.PI * rotationFactor}` : `-=${Math.PI * rotationFactor}`;
+          gsap.set(canRef.current!.scale, { x: tabletScale, y: tabletScale, z: tabletScale });
+          gsap.set(canRef.current!.position, { x: 1 });
+        }
 
-        scrollTl
-          .to(canRef.current.rotation, {
-            y: rotationY,
-            ease: 'circ.inOut',
-          })
-          .to(
-            canRef.current.position,
-            {
-              x: positionX,
-              ease: 'circ.inOut',
-            },
-            '<',
-          )
-          .to(
-            '.alternating-text-container',
-            {
-              backgroundColor: bgColors[index],
-            },
-            '<',
-          );
-      });
-    });
+        if (isDesktop) gsap.set(canRef.current!.position, { x: 1.5 });
+
+        if (isTablet) {
+          sections.forEach((_, index) => {
+            if (!index || !canRef.current) return;
+
+            const positionScale = isBetween ? 1 : 1.5;
+            const positionX = index % 2 !== 0 ? -positionScale : positionScale;
+            const rotationFactor = 1.8;
+            const rotationY =
+              index % 2 === 0 ? `+=${Math.PI * rotationFactor}` : `-=${Math.PI * rotationFactor}`;
+
+            scrollTl
+              .to(canRef.current.rotation, {
+                y: rotationY,
+                ease: 'circ.inOut',
+              })
+              .to(
+                canRef.current.position,
+                {
+                  x: positionX,
+                  ease: 'circ.inOut',
+                },
+                '<',
+              )
+              .to(
+                '.alternating-text-container',
+                {
+                  backgroundColor: bgColors[index],
+                },
+                '<',
+              );
+          });
+        }
+      },
+    );
+
+    // mm.add('(max-width: 1024px)', () => {
+    //   const tabletScale = 0.8;
+
+    //   gsap.set(canRef.current!.scale, { x: tabletScale, y: tabletScale, z: tabletScale });
+    //   gsap.set(canRef.current!.position, { x: 1 });
+    // });
 
     mm.add('(max-width: 768px)', () => {
       const mobileScale = 0.7;
@@ -71,7 +97,7 @@ export default function Scene() {
       gsap.set(canRef.current!.scale, { x: mobileScale, y: mobileScale, z: mobileScale });
       gsap.set(canRef.current!.position, { x: 0, y: 0.4 });
 
-      const continuousRotationY = `+=${Math.PI * 10}`;
+      const continuousRotationY = `+=${Math.PI * 6}`;
 
       sections.forEach((_, index) => {
         if (!index) return;
@@ -94,8 +120,12 @@ export default function Scene() {
   }, [isDesktop]);
 
   return (
-    <group ref={canRef} position-x={isDesktop ? 1.5 : 0} rotation-y={-0.4}>
-      <FloatingCan ref={canRef} flavor="strawberryLemonade" rotationIntensity={isDesktop ? 1 : .4}/>
+    <group ref={canRef} rotation-y={-0.4}>
+      <FloatingCan
+        ref={canRef}
+        flavor="strawberryLemonade"
+        rotationIntensity={isDesktop ? 1 : 0.4}
+      />
       <Environment files="hdr/lobby.hdr" environmentIntensity={1.5} />
     </group>
   );

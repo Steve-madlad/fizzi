@@ -90,52 +90,80 @@ export default function Scene({}: Props) {
         );
     }
 
-    const scrollTl = gsap.timeline({
-      defaults: {
-        duration: 2,
+    const mm2 = gsap.matchMedia();
+
+    mm2.add(
+      {
+        isDesktop: '(min-width: 1024px)',
+        isTablet: '(max-width: 1023px)',
       },
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1.5,
+      (context) => {
+        const { isDesktop } = context.conditions!;
+
+        const config = isDesktop
+          ? {
+              can1: { x: -0.2, y: -0.7, z: -2 },
+              can2: { x: 1, y: -0.2, z: -1 },
+              can3: { x: -0.3, y: 0.5, z: -1 },
+              can4: { x: 0, y: -0.3, z: 0.5 },
+              can5: { x: 0.3, y: 0.5, z: -0.5 },
+            }
+          : {
+              can1: { x: -0.05, y: -0.58, z: -2 },
+              can2: { x: 0.85, y: -0.2, z: -1 },
+              can3: { x: -0.15, y: 0.3, z: -1 },
+              can4: { x: 0, y: -0.3, z: 0.5 },
+              can5: { x: 0.3, y: 0.3, z: -0.5 },
+            };
+
+        const scrollTl = gsap.timeline({
+          defaults: {
+            duration: 2,
+          },
+          scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1.5,
+          },
+        });
+
+        scrollTl
+          .to(groupRef.current!.rotation, {
+            y: Math.PI * 2,
+          })
+
+          //can1
+          .to(can1Ref.current!.position, config.can1, 0)
+          .to(can1Ref.current!.rotation, { z: 0.3 }, 0)
+
+          //can2
+          .to(can2Ref.current!.position, config.can2, 0)
+          .to(can2Ref.current!.rotation, { z: 0 }, 0)
+
+          //can3
+          .to(can3Ref.current!.position, config.can3, 0)
+          .to(can2Ref.current!.rotation, { z: -0.1 }, 0)
+
+          //can4
+          .to(can4Ref.current!.position, config.can4, 0)
+          .to(can3Ref.current!.rotation, { z: 0.3 }, 0)
+
+          //can5
+          .to(can5Ref.current!.position, config.can5, 0)
+          .to(can4Ref.current!.rotation, { z: -0.25 }, 0)
+
+          .to(
+            groupRef.current!.position,
+            {
+              x: 1,
+              duration: 3,
+              ease: 'sine.inOut',
+            },
+            1.3,
+          );
       },
-    });
-
-    scrollTl
-      .to(groupRef.current.rotation, {
-        y: Math.PI * 2,
-      })
-
-      //can1
-      .to(can1Ref.current.position, { x: -0.2, y: -0.7, z: -2 }, 0)
-      .to(can1Ref.current.rotation, { z: 0.3 }, 0)
-
-      //can2
-      .to(can2Ref.current.position, { x: 1, y: -0.2, z: -1 }, 0)
-      .to(can2Ref.current.rotation, { z: 0 }, 0)
-
-      //can3
-      .to(can3Ref.current.position, { x: -0.3, y: 0.5, z: -1 }, 0)
-      .to(can2Ref.current.rotation, { z: -0.1 }, 0)
-
-      //can4
-      .to(can4Ref.current.position, { x: 0, y: -0.3, z: 0.5 }, 0)
-      .to(can3Ref.current.rotation, { z: 0.3 }, 0)
-
-      //can5
-      .to(can5Ref.current.position, { x: 0.3, y: 0.5, z: -0.5 }, 0)
-      .to(can4Ref.current.rotation, { z: -0.25 }, 0)
-
-      .to(
-        groupRef.current.position,
-        {
-          x: 1,
-          duration: 3,
-          ease: 'sine.inOut',
-        },
-        1.3,
-      );
+    );
 
     const tabletScale = 0.75;
 
