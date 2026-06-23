@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   title: { default: 'Fizzi', template: '%s | Fizzi' },
   description:
     'Fizzi is a gut-friendly soda brand for gutsy people, delivering probiotic refreshment with real fruit flavor, low sugar, and natural ingredients.',
-  authors: [{ name: 'Fizzi' }],
-  creator: 'Fizzi',
-  publisher: 'Fizzi',
+  authors: [{ name: 'Steve' }],
+  creator: 'Steve',
+  publisher: 'Steve',
   formatDetection: {
     email: false,
     address: false,
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: 'Fizzi',
     images: [
       {
-        url: '/bunched-cans.png',
+        url: '/OG Image.png',
         width: 1200,
         height: 630,
         alt: 'Fizzi soda cans',
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: 'Fizzi - Soda for Gutsy people',
     description:
       'Live Gutsy with Fizzi — a probiotic soda with real fruit, low sugar, and bold flavor for a happier gut.',
-    images: ['/bunched-cans.png'],
+    images: ['/OG Image.png'],
     creator: '@Theblackguy_1',
   },
   robots: {
