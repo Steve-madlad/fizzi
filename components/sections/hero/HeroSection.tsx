@@ -59,14 +59,15 @@ export default function Hero() {
         isMobile: '(max-width: 768px)',
       },
       (context) => {
-        const breakpoints = context.conditions;
+        const { isMobile } = context.conditions!;
 
         const scrollTl = gsap.timeline({
           scrollTrigger: {
             trigger: '.hero',
-            start: !breakpoints?.isMobile ? 'top top' : 'center center',
-            end: !breakpoints?.isMobile ? 'bottom bottom' : 'bottom 80%',
+            start: isMobile ? 'top top' : 'center center',
+            end: isMobile ? 'bottom bottom-=250' : 'bottom bottom+=20',
             scrub: 1.5,
+            markers: true,
           },
         });
 
@@ -82,7 +83,7 @@ export default function Hero() {
             {
               backgroundColor: '#D9F99D',
               overflow: 'auto',
-              duration: breakpoints?.isMobile ? 3 : 'auto',
+              duration: 3,
             },
             1,
           )
