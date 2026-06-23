@@ -5,7 +5,7 @@ import CarouselxAlternating from '@/components/sections/CarouselxAlternating';
 import Dive from '@/components/sections/dive/DiveSection';
 import Hero from '@/components/sections/hero/HeroSection';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({
