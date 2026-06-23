@@ -67,7 +67,6 @@ export default function Hero() {
             start: isMobile ? 'top top' : 'center center',
             end: isMobile ? 'bottom bottom-=250' : 'bottom bottom+=20',
             scrub: 1.5,
-            markers: true,
           },
         });
 
