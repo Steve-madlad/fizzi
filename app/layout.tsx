@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://your-production-url.com'),
+  metadataBase: new URL('https://fizzy-gutsy.vercel.app'),
   alternates: {
     canonical: '/',
   },
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: 'Fizzi - Soda for Gutsy people',
     description:
       'Live Gutsy with Fizzi — a probiotic soda with real fruit, low sugar, and bold flavor for a happier gut.',
-    url: 'https://your-production-url.com',
+    url: 'https://fizzy-gutsy.vercel.app',
     siteName: 'Fizzi',
     images: [
       {
