@@ -62,13 +62,13 @@ export default function Scene() {
             scrollTl
               .to(canRef.current.rotation, {
                 y: rotationY,
-                ease: 'circ.inOut',
+                ease: 'expo.inOut',
               })
               .to(
                 canRef.current.position,
                 {
                   x: positionX,
-                  ease: 'circ.inOut',
+                  ease: 'expo.inOut',
                 },
                 '<',
               )
@@ -83,13 +83,6 @@ export default function Scene() {
         }
       },
     );
-
-    // mm.add('(max-width: 1024px)', () => {
-    //   const tabletScale = 0.8;
-
-    //   gsap.set(canRef.current!.scale, { x: tabletScale, y: tabletScale, z: tabletScale });
-    //   gsap.set(canRef.current!.position, { x: 1 });
-    // });
 
     mm.add('(max-width: 768px)', () => {
       const mobileScale = 0.7;

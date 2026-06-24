@@ -14,7 +14,7 @@ import { Bubbles } from '../../three/Bubbles';
 import Scene from './Scene';
 
 export default function Hero() {
-  const { isReady } = useAppStore();
+  const isReady = useAppStore((state) => state.isReady);
   const isDesktop = useMediaQuery('(min-width: 768px)', true);
 
   useGSAP(() => {
@@ -64,8 +64,8 @@ export default function Hero() {
         const scrollTl = gsap.timeline({
           scrollTrigger: {
             trigger: '.hero',
-            start: isMobile ? 'top top' : 'center center',
-            end: isMobile ? 'bottom bottom-=250' : 'bottom bottom+=20',
+            start: isMobile ? 'top top' : '10% top',
+            end: isMobile ? 'bottom bottom-=250' : 'bottom bottom',
             scrub: 1.5,
           },
         });
@@ -82,21 +82,20 @@ export default function Hero() {
             {
               backgroundColor: '#D9F99D',
               overflow: 'auto',
-              duration: 3,
             },
             1,
           )
           .from('.text-side-heading .split-char', {
             scale: 1.3,
-            rotate: -25,
             y: 40,
+            rotate: -25,
             opacity: 0,
             stagger: 0.1,
             ease: 'back.out(3)',
             duration: 0.5,
           })
           .from(textBodySplit.words, {
-            yPercent: 300,
+            yPercent: 150,
             opacity: 0,
             rotate: 3,
             ease: 'power1.out',
