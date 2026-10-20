@@ -79,7 +79,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${alpino.variable} h-full antialiased`}>
-      <body className="overflow-x-hidden! bg-yellow-300">
+      <body className="overflow-x-hidden! overflow-y-hidden bg-yellow-300">
         <Header />
         <main>
           {children}
